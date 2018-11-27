@@ -1,3 +1,6 @@
+/* import shared library */
+@Library('jenkins-shared-library')_
+
 pipeline {
     agent any
     environment {
@@ -86,6 +89,11 @@ pipeline {
         }
     }
     post {
+        always {
+	    /* Use slackNotifier.groovy from shared library and provide current build result as parameter */   
+            slackNotifier(currentBuild.currentResult)
+            cleanWs()
+        }
         cleanup {
             kubernetesDeploy (
                 kubeconfigId: 'kubeconfig',
