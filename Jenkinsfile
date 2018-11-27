@@ -89,14 +89,20 @@ pipeline {
         }
     }
     post {
-	cleanup {
+	/*cleanup {
             kubernetesDeploy (
                 kubeconfigId: 'kubeconfig',
                 configs: 'train-schedule-kube-canary.yml',
                 enableConfigSubstitution: true
             )
-        }
+        }*/
+	    
         always {
+	    kubernetesDeploy (
+                kubeconfigId: 'kubeconfig',
+                configs: 'train-schedule-kube-canary.yml',
+                enableConfigSubstitution: true
+            )
 	    /* Use slackNotifier.groovy from shared library and provide current build result as parameter */   
             slackNotifier(currentBuild.currentResult)
             // cleanWs()
