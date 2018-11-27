@@ -89,17 +89,17 @@ pipeline {
         }
     }
     post {
-        always {
-	    /* Use slackNotifier.groovy from shared library and provide current build result as parameter */   
-            slackNotifier(currentBuild.currentResult)
-            cleanWs()
-        }
-        cleanup {
+	cleanup {
             kubernetesDeploy (
                 kubeconfigId: 'kubeconfig',
                 configs: 'train-schedule-kube-canary.yml',
                 enableConfigSubstitution: true
             )
+        }
+        always {
+	    /* Use slackNotifier.groovy from shared library and provide current build result as parameter */   
+            slackNotifier(currentBuild.currentResult)
+            cleanWs()
         }
     }
 }
