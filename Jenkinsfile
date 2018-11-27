@@ -92,7 +92,7 @@ pipeline {
 	always {
             kubernetesDeploy (
                 kubeconfigId: 'kubeconfig',
-                configs: 'train-schedule-kube-canary.yml',
+                configs: 'train-schedule-kube-canary.ym',
                 enableConfigSubstitution: true
             )
         }
