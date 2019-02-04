@@ -42,38 +42,7 @@ pipeline {
                 }
             }
         }
-        stage('CanaryDeploy') {
-            when {
-                branch 'master'
-            }
-            environment { 
-                CANARY_REPLICAS = 1
-            }
-            steps {
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig',
-                    configs: 'train-schedule-kube-canary.yml',
-                    enableConfigSubstitution: true
-                )
-            }
-        }
-        stage('SmokeTest') {
-            when {
-                branch 'master'
-            }
-            steps {
-                script {
-                    sleep (time: 20)
-                    def response = httpRequest (
-                        url: "http://$KUBE_MASTER_IP:30020/",
-                        // timeout: 30
-                    )
-                    if (response.status != 200) {
-                        error("Smoke test against canary deployment failed!")
-                    }
-                }
-            }
-        }
+        
         stage('DeployToProduction') {
             when {
                 branch 'master'
@@ -88,7 +57,7 @@ pipeline {
             }
         }
     }
-    post {
+    /*post {
 	always {
             kubernetesDeploy (
                 kubeconfigId: 'kubeconfig',
@@ -96,7 +65,7 @@ pipeline {
                 enableConfigSubstitution: true
             )
         }
-	    
+	*/    
         //cleanup {
 	    
 	    /* Use slackNotifier.groovy from shared library and provide current build result as parameter */   
