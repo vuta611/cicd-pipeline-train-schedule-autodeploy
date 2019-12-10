@@ -18,7 +18,7 @@ pipeline {
 	    post {
        	    	always {
            		jiraSendBuildInfo site: 'vutran.atlassian.net'
-			//Testing
+			//Testing v1
        	    	 }
 	    }
         }
