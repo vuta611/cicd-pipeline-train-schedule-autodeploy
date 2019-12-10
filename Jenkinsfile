@@ -17,7 +17,7 @@ pipeline {
             }
 	    post {
        	    	always {
-           		jiraSendBuildInfo branch: 'SAM', site: 'vutran.atlassian.net'
+           		jiraSendBuildInfo site: 'vutran.atlassian.net'
        	    	 }
 	    }
         }
