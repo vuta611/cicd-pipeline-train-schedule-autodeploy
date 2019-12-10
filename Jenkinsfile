@@ -15,6 +15,11 @@ pipeline {
                 sh './gradlew build --no-daemon'
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
+	    post {
+       	    	always {
+           		jiraSendBuildInfo branch: 'master', site: 'vutran.atlassian.net'
+       	    	 }
+	    }
         }
         stage('Build Docker Image') {
             when {
